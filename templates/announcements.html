@@ -1,0 +1,92 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+Объявления
+{% endblock title %}
+
+{% block content %}
+    <h1>Все объявления</h1>
+    <h2>Количество объявлений {{ announcements|length }} </h2>
+   <table>
+    <tr>
+        <td>
+            Заголовок
+        </td>
+        <td>
+            Дата публикации
+        </td>
+        <td>
+            Объявление
+        </td>
+    </tr>
+    {% for announcement in filter.qs %}
+    <tr>
+        <td>
+            <a href="{% url 'announcement' announcement.id %}">{{ announcement.title|title }}</a>
+        </td>
+        <td>
+            {{ announcement.title|rude }}
+        </td>
+        <td>
+            {{ announcement.created|date:'d M Y H:i' }}
+        </td>
+        <td>
+            {{ announcement.text|truncatechars:60 }}
+        </td>
+        <td>
+            <img src="{{ announcement.media.url }}" />
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% if is_paginated %}
+
+    <!-- Если доступна предыдущая страница, то даём ссылку на неё и самую первую страницу -->
+    {% if page_obj.has_previous %}
+        <a href="?page=1">Первая</a>
+        <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
+    {% endif %}
+
+    <!-- Показываем только текущую страницу и ближайшие к ней, чтобы список не тянулся и не захламлял страницу -->
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <a>{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    <!-- Если есть следующая страница, то даём ссылку на неё и на самую последнюю страницу -->
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">>>></a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+    {% endif %}
+
+{% endif %}
+<a href="{% url 'announcement_create' %}">Создать объявление</a>
+<!--<form method="POST">-->
+<!--    {% csrf_token %}-->
+<!--    <label for="title">Заголовок</label>-->
+<!--    <input name="name" type="text">-->
+
+<!--    <label for="text">Текст объявления</label>-->
+<!--    <input name="text" min="0">-->
+
+<!--    &lt;!&ndash; Здесь будет список категорий.  &ndash;&gt;-->
+<!--    <select name="category" size="1">-->
+
+<!--        <label for="media">Загрузить файл</label>-->
+<!--        <input name="file" type="file">-->
+
+
+<!--      {% for category in categories %}-->
+<!--        <option value="{{ category.id }}">-->
+<!--            {{ category.name }}-->
+<!--        </option>-->
+<!--      {% endfor %}-->
+<!--    </select>-->
+<!--    <input type="submit" value="Добавить объявление">-->
+<!--</form>-->
+{% endblock content %}
