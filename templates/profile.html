@@ -1,0 +1,40 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+Объявления
+{% endblock title %}
+
+{% block content %}
+    <h1>Все отклики</h1>
+    <h2>Количество откликов {{ responses|length }} </h2>
+   <table>
+    <tr>
+        <td>
+            Объявление
+        </td>
+        <td>
+            Текст отклика
+        </td>
+        <td>
+            Дата публикации
+        </td>
+    </tr>
+    {% for response in responses %}
+    <tr>
+        <td>
+            {{ response.advert.title }}
+        </td>
+        <td>
+            {{ response.response_text }}
+        </td>
+        <td>
+            {{ response.response_datetime|date:'d M Y H:i' }}
+        </td>
+        <td>
+
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}
