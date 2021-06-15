@@ -15,9 +15,9 @@ def notification_mail(sender, created, **kwargs):
             if created:
                  subject = f'{person.username}'
 
-            send_mail(
-                subject=subject,
-                message=f'Новый пост на доске!',
-                from_email= '',
-                recipient_list = people_email,
-            )
+    send_mail(
+        subject=subject,
+        message=f'Новый пост на доске!',
+        from_email= '',
+        recipient_list = people_email,
+    )
