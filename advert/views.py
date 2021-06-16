@@ -61,6 +61,17 @@ class AnnouncementCreate(CreateView):
     template_name = 'announcement_create.html'
     form_class = AnnouncementForm
     success_url = '/announcements/'
+    
+    def media_create(request):
+    if request.method == "POST":
+        form = Announcement(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('media-list'))
+    else:
+        form = Announcement()
+    return render('media/create/html', {'form': form})
+
 
 
 
@@ -91,12 +102,3 @@ class CategoryView(ListView):
     queryset = Category.objects.all()
 
 
-def media_create(request):
-    if request.method == "POST":
-        form = Announcement(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('media-list'))
-    else:
-        form = Announcement()
-    return render('media/create/html', {'form': form})
