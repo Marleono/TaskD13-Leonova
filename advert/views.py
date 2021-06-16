@@ -73,6 +73,17 @@ class AnnouncementCreate(CreateView):
     return render('media/create/html', {'form': form})
 
 
+@method_decorator(login_required, name='dispatch')
+class AnnouncementUpdate(UpdateView):
+    template_name = 'announcement_create.html'
+    form_class = AnnouncementForm
+
+    # метод get_object мы используем вместо queryset, чтобы получить информацию об объекте который мы собираемся редактировать
+    def get_object(self, **kwargs):
+        id = self.kwargs.get('pk')
+        return Announcement.objects.get(pk=id)
+
+
 
 
 @method_decorator(login_required, name='dispatch')
