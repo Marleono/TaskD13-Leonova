@@ -47,6 +47,9 @@
             <a href="{% url 'announcement_delete' announcement.id %}">Удалить объявление</a>
         </td>
         <td>
+            <a href="{% url 'announcement_create' announcement.id %}"><u>Редактировать</u></a>
+        </td>
+        <td>
             <a href="{% url 'response_create' announcement.id %}">Откликнуться</a>
         </td>
     </tr>
