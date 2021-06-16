@@ -20,7 +20,7 @@ class Announcement(models.Model):
     owner = models.ForeignKey(User, on_delete = models.CASCADE, default=True)
     title = models.CharField(max_length=150)
     text = models.TextField(max_length=500)
-    media = models.FileField(upload_to='media', max_length=100, blank=True)
+    media = models.FileField(upload_to='pics/', max_length=100, blank=True)
     created = models.DateTimeField(auto_now_add=True, editable=False)
     category = models.ManyToManyField(Category, through='AnnounCategory', related_name='category')
 
